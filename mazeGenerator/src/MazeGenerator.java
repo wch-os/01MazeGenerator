@@ -63,8 +63,8 @@ public class MazeGenerator {
     }
 
     public static void main(String[] args) {
-        int x = 30;
-        int y = 30;
+        int x = 10;
+        int y = 10;
         MazeGenerator maze = new MazeGenerator(x, y);
         maze.display();
     }
