@@ -9,6 +9,7 @@ public class MazeGenerator {
     private final int[][] maze;
     private final int[] dx = {-1, 0, 1, 0};
     private final int[] dy = {0, 1, 0, -1};
+    private final Random random = new Random();
 
     public MazeGenerator(int x, int y) {
         this.x = x;
@@ -31,7 +32,7 @@ public class MazeGenerator {
             maze[x][y] = 0;
 
             Integer[] directions = {0, 1, 2, 3};
-            Collections.shuffle(Arrays.asList(directions), new Random());
+            Collections.shuffle(Arrays.asList(directions), random);
 
             boolean moved = false;
             for(int dir : directions) {
@@ -48,9 +49,35 @@ public class MazeGenerator {
                 stack.pop();
         }
 
-        // 시작점과 출구를 뚫어줍니다.
+        // 시작점을 뚫어줍니다.
         maze[0][1] = 0;
-        maze[x*2][y*2-1] = 0;
+
+        // 출구를 랜덤하게 생성합니다.
+        generateRandomExit();
+    }
+
+    private void generateRandomExit() {
+        int side = random.nextInt(4);
+        int exit;
+
+        switch (side) {
+            case 0: // Top
+                exit = random.nextInt(y) * 2 + 1;
+                maze[0][exit] = 0;
+                break;
+            case 1: // Right
+                exit = random.nextInt(x) * 2 + 1;
+                maze[exit][y*2] = 0;
+                break;
+            case 2: // Bottom
+                exit = random.nextInt(y) * 2 + 1;
+                maze[x*2][exit] = 0;
+                break;
+            case 3: // Left
+                exit = random.nextInt(x) * 2 + 1;
+                maze[exit][0] = 0;
+                break;
+        }
     }
 
     public void display() {
